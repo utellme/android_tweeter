@@ -25,6 +25,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         private TextView tvBody;
         private TextView tvUserName;
         private ImageView ivProfileImage;
+        private TextView tvUserText;
 
     }
 
@@ -53,7 +54,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.ivProfileImage = (ImageView)convertView.findViewById(R.id.ivProfileImage);
             viewHolder.tvUserName = (TextView)convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody = (TextView)convertView.findViewById(R.id.tvBody);
-
+            viewHolder.tvUserText = (TextView)convertView.findViewById(R.id.tvUserText);
 
 
             convertView.setTag(viewHolder);
@@ -65,7 +66,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         }
 
         //clear out imageview incase having an old image
-        viewHolder.ivProfileImage.setImageResource(android.R.color.transparent );
+        viewHolder.ivProfileImage.setImageResource(android.R.color.transparent);
 
 
 
@@ -74,7 +75,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
 
         viewHolder.tvBody.setText(tweet.getBody());
-        viewHolder.tvUserName.setText(tweet.getUser().getScreenName());
+        viewHolder.tvUserName.setText("@" + tweet.getUser().getScreenName());
+        viewHolder.tvUserText.setText(tweet.getUser().getName());
 
 
         //return the created item as a view

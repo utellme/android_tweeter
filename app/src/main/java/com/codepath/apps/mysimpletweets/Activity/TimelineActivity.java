@@ -51,6 +51,7 @@ public class TimelineActivity extends AppCompatActivity {
                // super.onSuccess(statusCode, headers, response);
 
                 tweetsAdapter.addAll(Tweet.fromJsonArray(response));
+
             }
 
             @Override
