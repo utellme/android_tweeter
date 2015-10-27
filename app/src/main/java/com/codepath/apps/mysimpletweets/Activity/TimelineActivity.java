@@ -234,25 +234,23 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-       // Toast.makeText(this, "RequestCode: " + requestCode + "resultCode: " + resultCode, Toast.LENGTH_SHORT).show();
-
-
 
         if(data != null){
             Tweet tweetObj = (Tweet)data.getSerializableExtra("tweetObj");
-            System.out.println("TweetsAdapter size before: " + tweets.size());
-           // tweetsAdapter.add(tweetObj);
-            tweets.add(tweetObj);
 
-            System.out.println("TweetsAdapter size after: " + tweets.size());
+
+
+            tweetsAdapter.insert(tweetObj, 0);
+            System.out.println("TweetsAdapter size before: " + tweetsAdapter.getCount());
+           // tweetsAdapter.add(tweetObj);
+            //tweets.add(tweetObj);
+
+            System.out.println("TweetsAdapter size after: " + tweetsAdapter.getCount());
             System.out.println("id: " + tweetObj.getUser().getUid() + ",name: " + tweetObj.getUser().getName() + ", screename: " + tweetObj.getUser().getScreenName() + ",url: " + tweetObj.getBody());
 
-            tweetsAdapter.notifyDataSetChanged();
+
 
         }
-//
-//        System.out.println("Search Images Activity");
-//        System.out.println("Search Images Activity: " + searchSettings.getsColorFilter() + "," + searchSettings.getsImageSize() + "," + searchSettings.getsImageType() + "," + searchSettings.getsSiteFilter());
 
     }
 }
