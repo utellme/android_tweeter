@@ -1,6 +1,7 @@
 package com.codepath.apps.mysimpletweets.Adapters;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by dvalia on 10/24/15.
@@ -26,6 +29,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         private TextView tvUserName;
         private ImageView ivProfileImage;
         private TextView tvUserText;
+        private TextView tvTime;
 
     }
 
@@ -55,6 +59,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvUserName = (TextView)convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody = (TextView)convertView.findViewById(R.id.tvBody);
             viewHolder.tvUserText = (TextView)convertView.findViewById(R.id.tvUserText);
+            viewHolder.tvTime = (TextView)convertView.findViewById(R.id.tvTime);
 
 
             convertView.setTag(viewHolder);
@@ -77,9 +82,30 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         viewHolder.tvBody.setText(tweet.getBody());
         viewHolder.tvUserName.setText("@" + tweet.getUser().getScreenName());
         viewHolder.tvUserText.setText(tweet.getUser().getName());
+        viewHolder.tvTime.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
 
 
         //return the created item as a view
         return convertView;
+    }
+
+
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    public String getRelativeTimeAgo(String rawJsonDate) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+
+        String relativeDate = "";
+        try {
+            long dateMillis = sf.parse(rawJsonDate).getTime();
+            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
     }
 }

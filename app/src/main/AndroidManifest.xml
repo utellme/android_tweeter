@@ -47,7 +47,11 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.TimelineActivity" >
+        <activity android:name=".Activity.TimelineActivity"
+            android:icon="@drawable/ic_action_compose">
+        </activity>
+        <activity android:name=".Activity.NewTweetActivity"
+            android:label="@string/new_tweet_app_name">
         </activity>
     </application>
 

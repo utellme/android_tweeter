@@ -4,18 +4,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by dvalia on 10/24/15.
  */
-public class Tweet {
+public class Tweet implements Serializable{
 
     private String body;
     private long uid;
     private String createdAt;
     private User user;
+
+    private static long MAX_ID;
 
 
     //take an array of JSON Images and create a list of ImageResults
@@ -30,6 +33,8 @@ public class Tweet {
                 tweet.uid = jsonObject.getLong("id");
                 tweet.createdAt = jsonObject.getString("created_at");
                 tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+
+                System.out.println("TweetUser:" + tweet.user.getScreenName() + ", Tweetid:" + tweet.uid );
 
 
             } catch (Exception e) {
@@ -54,6 +59,8 @@ public class Tweet {
 
                Tweet tweet = Tweet.fromJson(tweetObject);
 
+               MAX_ID = tweet.getUid();
+
                tweets.add(tweet);
            }
            catch(JSONException e) {
@@ -65,6 +72,14 @@ public class Tweet {
 
         return tweets;
     }
+
+
+    public static long getMaxId(){
+
+        return MAX_ID;
+
+    }
+
 
     public String getCreatedAt() {
         return createdAt;

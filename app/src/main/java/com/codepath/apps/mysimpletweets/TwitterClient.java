@@ -6,6 +6,7 @@ import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
 
+import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -41,6 +42,7 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("format", "json");
 		client.get(apiUrl, params, handler);
+
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
@@ -52,13 +54,37 @@ public class TwitterClient extends OAuthBaseClient {
 	 *    i.e client.post(apiUrl, params, handler);
 	 */
 
-	public void getHomeTimeline(AsyncHttpResponseHandler handler){
+	public void getHomeTimeline(boolean scroll, AsyncHttpResponseHandler handler){
 
 		String apiURL = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
-		params.put("since_id",1);
+		params.put("since_id", 1);
+
+		if(scroll){
+			//get minimum id
+			System.out.println("MAX_ID passed: " + (Tweet.getMaxId()-1));
+			params.put("max_id", (Tweet.getMaxId()-1));
+		}
+
 
 		getClient().get(apiURL, params, handler);
+	}
+
+	public void getVerifyCredentials(AsyncHttpResponseHandler handler){
+
+		String apiURL = getApiUrl("account/verify_credentials.json");
+
+		getClient().get(apiURL, handler);
+
+
+	}
+
+	public void postTweet(String tweet, AsyncHttpResponseHandler handler){
+
+		String apiURL = getApiUrl("statuses/update.json");
+		RequestParams params = new RequestParams();
+		params.put("status", tweet);
+		getClient().post(apiURL,params, handler);
 	}
 }
